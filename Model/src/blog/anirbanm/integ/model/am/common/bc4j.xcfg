@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!---->
+<BC4JConfig xmlns="http://xmlns.oracle.com/bc4j/configuration" version="11.1">
+  <AppModuleConfigBag ApplicationName="blog.anirbanm.integ.model.am.IntegrationModule">
+    <AppModuleConfig name="IntegrationModuleLocal" jbo.project="blog.anirbanm.integ.model.Model"
+                     ApplicationName="blog.anirbanm.integ.model.am.IntegrationModule" DeployPlatform="LOCAL">
+      <Database jbo.TypeMapEntries="OracleApps" JDBCDataSource="jdbc/HrDS"/>
+      <Security AppModuleJndiName="blog.anirbanm.integ.model.am.IntegrationModule"/>
+    </AppModuleConfig>
+    <AppModuleConfig name="IntegrationModuleShared" jbo.project="blog.anirbanm.integ.model.Model"
+                     ApplicationName="blog.anirbanm.integ.model.am.IntegrationModule" DeployPlatform="LOCAL">
+      <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false"/>
+      <Database jbo.TypeMapEntries="OracleApps" JDBCDataSource="jdbc/HrDS"/>
+      <Security AppModuleJndiName="blog.anirbanm.integ.model.am.IntegrationModule"/>
+    </AppModuleConfig>
+  </AppModuleConfigBag>
+</BC4JConfig>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.9.14" id="DataBindings"
+             SeparateXMLFiles="false" Package="blog.anirbanm.integ.view" ClientType="Generic">
+  <pageMap>
+    <page path="/integ.jspx" usageId="blog_anirbanm_integ_view_integPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="blog_anirbanm_integ_view_integPageDef" path="blog.anirbanm.integ.view.pageDefs.integPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <BC4JDataControl id="IntegrationModuleDataControl" Package="blog.anirbanm.integ.model.am"
+                     FactoryClass="oracle.adf.model.bc4j.DataControlFactoryImpl" SupportsTransactions="true"
+                     SupportsFindMode="true" SupportsRangesize="true" SupportsResetState="true"
+                     SupportsSortCollection="true" Configuration="IntegrationModuleLocal" syncMode="Immediate"
+                     xmlns="http://xmlns.oracle.com/adfm/datacontrol"/>
+  </dataControlUsages>
+</Application>

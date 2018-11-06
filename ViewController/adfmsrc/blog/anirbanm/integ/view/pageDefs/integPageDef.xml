@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.2.1.9.14" id="integPageDef"
+                Package="blog.anirbanm.integ.view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+  </executables>
+  <bindings>
+    <methodAction id="updateEmployees" RequiresUpdateModel="true" Action="invokeMethod" MethodName="updateEmployees"
+                  IsViewObjectMethod="false" DataControl="IntegrationModuleDataControl"
+                  InstanceName="bindings.updateEmployees.dataControl.dataProvider"
+                  ReturnName="data.IntegrationModuleDataControl.methodResults.updateEmployees_updateEmployees_dataControl_dataProvider_updateEmployees_result">
+      <NamedData NDName="employees" NDType="java.util.List"/>
+    </methodAction>
+  </bindings>
+</pageDefinition>

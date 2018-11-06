@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="IntegrationModule"
+  Version="12.2.1.9.14"
+  InheritPersonalization="merge"
+  ComponentClass="blog.anirbanm.integ.model.am.IntegrationModuleImpl"
+  ClearCacheOnRollback="true"
+  ComponentInterface="blog.anirbanm.integ.model.am.common.IntegrationModule">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="blog.anirbanm.integ.model.am.IntegrationModule_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <ClientInterface
+    Name="__clientInterface">
+    <Method
+      Name="updateEmployees"
+      MethodName="updateEmployees">
+      <Return
+        Name="_return_type_"
+        Type="java.util.List"
+        IsGeneric="true">
+        <Element
+          Name="Employee"
+          Type="blog.anirbanm.integ.viewmodel.Employee"/>
+      </Return>
+      <Parameter
+        Name="employees"
+        Type="java.util.List"
+        IsGeneric="true">
+        <Element
+          Name="Employee"
+          Type="blog.anirbanm.integ.viewmodel.Employee"/>
+      </Parameter>
+    </Method>
+  </ClientInterface>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="blog.anirbanm.integ.model.ModelBundle"/>
+  </ResourceBundle>
+</AppModule>
