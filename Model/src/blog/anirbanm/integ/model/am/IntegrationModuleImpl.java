@@ -17,7 +17,7 @@ import java.util.List;
 
 import oracle.jbo.server.ApplicationModuleImpl;
 
-import oracle.jdbc.driver.OracleConnection;
+import oracle.jdbc.OracleConnection;
 
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
@@ -55,14 +55,13 @@ public class IntegrationModuleImpl extends ApplicationModuleImpl implements Inte
             /**
              * @Deprecated code
              * oracle.sql.STRUCT and oracle.sql.ARRAY
-             * Works for both 11g and 12c databases
              */
             /* final StructDescriptor typeDef = StructDescriptor.createDescriptor(typeName, connection);
             STRUCT[] data = new STRUCT[dataSize];
-            for (int i = 0; i < dataSize; i++) {
-                final Employee employee = employees.get(i);
+            Integer counter = 0;
+            for (final Employee employee : employees) {
                 final STRUCT structObject = new STRUCT(typeDef, connection, getArrayFromObject(employee));
-                data[i] = structObject;
+                data[counter++] = structObject;
             }
             final ArrayDescriptor typeObj = ArrayDescriptor.createDescriptor(objectName, connection);
             final Array dataArray = new ARRAY(typeObj, connection, data); */
@@ -70,21 +69,24 @@ public class IntegrationModuleImpl extends ApplicationModuleImpl implements Inte
             /**
              * Updated API
              * java.sql.Struct and java.sql.Array
-             * Works ONLY on 12c database
              */
-            Struct[] data = new Struct[dataSize];
-            for (int i = 0; i < dataSize; i++) {
-                final Employee employee = employees.get(i);
-                final Struct structObject = connection.createStruct(typeName, getArrayFromObject(employee));
-                data[i] = structObject;
-            }
-            final Array dataArray = connection.createArrayOf(objectName, data);            
+//            Integer counter = 0;
+//            EmployeeTypeTable[] data = new EmployeeTypeTable[dataSize];
+//            for (final Employee employee : employees) {
+//                final EmployeeTypeTable emp = new EmployeeTypeTable(employee.getEmployeeId(),
+//                                                                    employee.getFirstName(), employee.getLastName());
+//                System.out.println(emp);
+//                data[counter++] = emp;
+//            }
+            OracleConnection conn = connection.unwrap(OracleConnection.class);
+            // final Array dataArray = connection.createArrayOf(objectName, data);
+            final Array dataArray = conn.createOracleArray(objectName, employees.toArray());
             
             stmt.setArray(1, dataArray);
             stmt.registerOutParameter(2, Types.ARRAY, objectName);
             stmt.execute();
             
-            output = (Object[]) ((Array) stmt.getObject(2)).getArray();
+            output = (Object[]) (stmt.getArray(2)).getArray();
 
         } catch(SQLException e) {
             e.printStackTrace();
@@ -118,16 +120,14 @@ public class IntegrationModuleImpl extends ApplicationModuleImpl implements Inte
         if (input != null) {
             try {
                 for(Object tmp : input) {
-                    Struct row = (Struct)tmp;
+                    Struct row = (Struct) tmp;
                     Object[] attributes = row.getAttributes();
-                    Employee employee = new Employee(((BigDecimal) attributes[0]).intValue(), (String)attributes[1], (String)attributes[2]);
-                    employees.add(employee);
+                    Employee emp = new Employee (((BigDecimal) attributes[0]), (String) attributes[1], (String) attributes[2]);
+                    employees.add(emp);
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 ;
             }
-        } else {
-            System.out.println("Input is null");
         }
         return employees;
     }

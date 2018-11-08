@@ -2,20 +2,40 @@ package blog.anirbanm.integ.viewmodel;
 
 import java.io.Serializable;
 
-public class Employee implements Serializable {
+import java.math.BigDecimal;
+
+import java.sql.SQLData;
+import java.sql.SQLException;
+import java.sql.SQLInput;
+import java.sql.SQLOutput;
+
+public class Employee implements Serializable, SQLData {
     
     @SuppressWarnings("compatibility:-5647745320310718797")
     private static final long serialVersionUID = -4242073696682805675L;
     
-    private Integer employeeId;
+    private String sqlType;
+    private BigDecimal employeeId;
     private String firstName;
     private String lastName;
 
     public Employee() {
-        this(100, "New", "Employee");
+        this("EMP_TYPE");
     }
     
-    public Employee(final Integer employeeId, final String firstName, final String lastName) {
+    public Employee(final String sqlType) {
+        this.sqlType = sqlType;
+    }
+    
+    public Employee(final BigDecimal employeeId, final String firstName, final String lastName) {
+        this("EMP_TYPE");
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    
+    public Employee(final String sqlType, final BigDecimal employeeId, final String firstName, final String lastName) {
+        this.sqlType = sqlType;
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,11 +49,19 @@ public class Employee implements Serializable {
             + lastName + "]";
     }
 
-    public void setEmployeeId(Integer employeeId) {
+    public void setSqlType(String sqlType) {
+        this.sqlType = sqlType;
+    }
+
+    public String getSqlType() {
+        return sqlType;
+    }
+
+    public void setEmployeeId(BigDecimal employeeId) {
         this.employeeId = employeeId;
     }
 
-    public Integer getEmployeeId() {
+    public BigDecimal getEmployeeId() {
         return employeeId;
     }
 
@@ -51,5 +79,25 @@ public class Employee implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    @Override
+    public String getSQLTypeName() throws SQLException {
+        return getSqlType();
+    }
+
+    @Override
+    public void readSQL(SQLInput sQLInput, String sqlType) throws SQLException {
+        this.sqlType = sqlType;
+        this.employeeId = sQLInput.readBigDecimal();
+        this.firstName = sQLInput.readString();
+        this.lastName = sQLInput.readString();
+    }
+
+    @Override
+    public void writeSQL(SQLOutput sQLOutput) throws SQLException {
+        sQLOutput.writeBigDecimal(this.employeeId);
+        sQLOutput.writeString(this.firstName);
+        sQLOutput.writeString(this.lastName);
     }
 }
