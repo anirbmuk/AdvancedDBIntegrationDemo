@@ -43,9 +43,9 @@ public class Employee implements Serializable, SQLData {
 
     @Override
     public String toString() {
-        return "Employee [employeeId -> "
-            + employeeId + ", firstName -> "
-            + firstName + ", lastName -> "
+        return "Employee ["
+            + employeeId + ", "
+            + firstName + ", "
             + lastName + "]";
     }
 
